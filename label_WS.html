@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Start PN System | NICU Optimized</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Sarabun', sans-serif; color: #000; line-height: 1.2; font-weight: 700; }
+    @media print {
+      @page { margin: 0; size: auto; }
+      body { background: #fff !important; margin: 0; padding: 0; }
+      .no-print { display: none !important; }
+      .print-area:not(.active) { display: none !important; }
+      .sticker { box-shadow: none !important; border: none !important; margin: 0 auto !important; page-break-after: always; overflow: hidden; background: #fff !important; }
+    }
+    .sticker-label { width: 3.75in; height: 2.48in; padding: 1.4cm 0.25in 0.1in 0.25in; box-sizing: border-box; position: relative; display: flex; flex-direction: column; background: #fff !important; }
+    .worksheet-a5 { width: 148mm; height: 210mm; padding: 10mm; box-sizing: border-box; background: #fff !important; }
+    .pn-table { width: 100%; border-collapse: collapse; border: 1.5px solid #000; }
+    .pn-table td { border: 1px solid #000; padding: 1px 6px; font-size: 11px; vertical-align: middle; }
+    [contenteditable="true"]:hover { background: #fff9c4; outline: 1px dashed #ccc; cursor: text; }
+    .active-card { border-color: #10b981 !important; background-color: #f0fdf4 !important; }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+
+  <div class="max-w-3xl mx-auto py-8 no-print text-center">
+    <h1 class="text-2xl font-black text-slate-800 mb-2 uppercase tracking-tight">📦 STARTER PN : NICU</h1>
+    <p class="text-emerald-700 font-bold mb-6 italic">ระบบสั่งพิมพ์ฉลากความร้อนและใบ Worksheet</p>
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div id="card-bag" onclick="selectSection('bag')" class="bg-white p-4 rounded-2xl border-4 border-transparent cursor-pointer shadow-sm hover:scale-105 transition-all active-card text-center font-bold text-slate-700">🧪 ฉลากแปะ Bag</div>
+      <div id="card-cover" onclick="selectSection('cover')" class="bg-white p-4 rounded-2xl border-4 border-transparent cursor-pointer shadow-sm hover:scale-105 transition-all text-center font-bold text-slate-700">🏷️ ฉลากหน้าถุง</div>
+      <div id="card-ws" onclick="selectSection('ws')" class="bg-white p-4 rounded-2xl border-4 border-transparent cursor-pointer shadow-sm hover:scale-105 transition-all text-center font-bold text-slate-700">📝 Worksheet</div>
+    </div>
+    <button onclick="window.print()" class="bg-slate-900 text-white py-4 px-14 rounded-full font-black text-2xl shadow-xl active:scale-95 transition-all">PRINT</button>
+  </div>
+
+  <div id="bag-area" class="print-area active flex justify-center">
+    <div class="sticker sticker-label bg-white shadow-md">
+      <div class="flex justify-between items-end border-b-2 border-black mb-1">
+        <span class="font-black text-[16px]">STARTER PN</span>
+        <span class="font-black text-[14px]">NICU</span>
+      </div>
+      <div class="text-[12px] font-bold mb-1" contenteditable="true">
+        HN: ......................... ชื่อ: ..................................................
+        <div class="flex items-center">
+          <div class="flex gap-4">Route: [ ] C-line &nbsp; [ ] P-line</div>
+          <div class="ml-auto">Rate: ....................</div>
+        </div>
+      </div>
+      <table class="pn-table">
+        <tbody contenteditable="true">
+          <tr><td>1. Sterile water</td><td class="text-right">34 ml</td></tr>
+          <tr><td>2. 50-D-W</td><td class="text-right">20 ml</td></tr>
+          <tr><td>3. 10% Aminoven Infant</td><td class="text-right">40 ml</td></tr>
+          <tr><td>4. 10% Ca gluconate</td><td class="text-right">6 ml</td></tr>
+          <tr><td>5. Heparin (1u/ml)</td><td class="text-right">0.2 ml</td></tr>
+          <tr class="font-black bg-gray-50">
+            <td class="text-right">Total Volume</td>
+            <td class="text-right underline decoration-double">100.2 ml</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mt-[0.5mm] text-[9px] font-bold leading-[1.2] pt-1" contenteditable="true">
+        <div class="grid grid-cols-2 gap-2">
+            <div>
+                <div>10% Glucose &nbsp; 4% Amino acid</div>
+                <div>Energy = 50 kcal</div>
+            </div>
+            <div class="text-right">
+                <div>วันที่ผลิต: <span class="date-today"></span></div>
+                <div>หมดอายุ <span class="date-exp"></span> เวลา 18:00 น.</div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="cover-area" class="print-area hidden flex justify-center">
+    <div class="sticker sticker-label bg-white shadow-md flex flex-col items-center justify-center text-center" contenteditable="true">
+        <div style="font-size: 40px; font-weight: 900; line-height: 1;">NICU</div>
+        <div style="border-top: 4px solid #000; border-bottom: 4px solid #000; width: 100%; padding: 4px 0; margin: 6px 0;"><span style="font-size: 24px; font-weight: 900; display: block; line-height: 1.2;">STARTER PN</span></div>
+        <div style="font-size: 20px; font-weight: 800; margin-bottom: 2px;">HN: ........................</div>
+        <div style="font-size: 14px; font-weight: 700;">ผลิต: <span class="date-today"></span> | หมดอายุ: <span class="date-exp"></span></div>
+        <div style="font-size: 15px; font-weight: 800; margin-top: 4px;">(เก็บในตู้เย็น 2-8° C)</div>
+    </div>
+  </div>
+
+  <div id="ws-area" class="print-area hidden flex justify-center">
+    <div class="sticker worksheet-a5 bg-white shadow-md flex flex-col">
+        <div class="flex justify-between items-center border-b-4 border-black pb-2 mb-4">
+            <h2 class="font-black text-xl text-slate-800">Worksheet : STARTER PN (NICU)</h2>
+            <div class="font-black text-lg text-red-600 border-2 border-red-600 px-2 italic">PREP x 2 bags</div>
+        </div>
+        <div class="grid grid-cols-2 gap-y-3 mb-4 font-bold text-lg" contenteditable="true">
+            <div class="col-span-2">ชื่อ-สกุล: .................................................................. HN: ...........................</div>
+            <div>วันที่เตรียม: <span class="date-today"></span></div>
+        </div>
+        <table class="w-full border-collapse border-2 border-black">
+            <thead><tr class="bg-slate-100 font-black"><th class="border-2 border-black p-2 w-[60%]">รายการ (Per Bag)</th><th class="border-2 border-black p-2 text-center">ปริมาณ (ml)</th><th class="border-2 border-black p-2 italic">Check</th></tr></thead>
+            <tbody class="text-xl font-bold" contenteditable="true">
+                <tr><td class="border border-black px-4 py-2">Sterile water</td><td class="border border-black p-2 text-center">34</td><td class="border border-black p-2"></td></tr>
+                <tr><td class="border border-black px-4 py-2">50-D-W</td><td class="border border-black p-2 text-center">20</td><td class="border border-black p-2"></td></tr>
+                <tr><td class="border border-black px-4 py-2">10% Aminoven Infant</td><td class="border border-black p-2 text-center">40</td><td class="border border-black p-2"></td></tr>
+                <tr><td class="border border-black px-4 py-2">10% Ca gluconate</td><td class="border border-black p-2 text-center">6</td><td class="border border-black p-2"></td></tr>
+                <tr><td class="border border-black px-4 py-2">Heparin (1u/ml)</td><td class="border border-black p-2 text-center">0.2</td><td class="border border-black p-2"></td></tr>
+                <tr class="bg-slate-50 border-t-4 border-black font-black"><td class="border-2 border-black px-4 py-2 text-right uppercase">Total Volume</td><td class="border-2 border-black p-2 text-center underline decoration-double">100.2</td><td class="border-2 border-black p-2"></td></tr>
+            </tbody>
+        </table>
+        <div class="mt-8 p-4 border-2 border-slate-200 rounded-lg flex-grow">
+            <div class="font-black text-sm mb-2 text-slate-600 uppercase">Preparation Note:</div>
+            <ul class="text-[15px] font-bold list-disc list-inside space-y-2">
+                <li>เตรียมสำหรับผู้ป่วย 1 ราย จำนวนทั้งหมด <span class="text-red-600 underline">2 ถุง</span></li>
+                <li>ปริมาตรรวมสารอาหารทั้งหมดที่ต้องเตรียม: 200.4 ml</li>
+                <li>แบ่งบรรจุลงถุง PN ถุงละ 100.2 ml</li>
+                <li>เก็บรักษาในตู้เย็นอุณหภูมิ 2-8° C</li>
+            </ul>
+        </div>
+        <div class="mt-8 flex justify-between text-sm px-4 border-t pt-4"><div>ผู้เตรียม: ............................................</div><div>ผู้ตรวจสอบ: ............................................</div></div>
+    </div>
+  </div>
+
+  <script>
+    function selectSection(type) {
+      // ซ่อนทุก Area
+      document.querySelectorAll('.print-area').forEach(el => { 
+        el.classList.add('hidden'); 
+        el.classList.remove('active'); 
+      });
+      // แสดงเฉพาะ Area ที่เลือก
+      const target = document.getElementById(`${type}-area`);
+      if(target) {
+        target.classList.remove('hidden');
+        target.classList.add('active');
+      }
+      
+      // เปลี่ยนสีปุ่มเมนู
+      document.querySelectorAll('[id^="card-"]').forEach(el => el.classList.remove('active-card'));
+      document.getElementById(`card-${type}`).classList.add('active-card');
+    }
+
+    function getThaiDate(offset = 0) {
+      const date = new Date();
+      date.setDate(date.getDate() + offset);
+      const months = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+      return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear() + 543}`;
+    }
+
+    // Initialize Dates
+    document.querySelectorAll('.date-today').forEach(el => el.innerText = getThaiDate(0));
+    document.querySelectorAll('.date-exp').forEach(el => el.innerText = getThaiDate(7));
+  </script>
+</body>
+</html>
