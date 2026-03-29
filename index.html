@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>Starter PN NICU | Print System</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;800;900&display=swap" rel="stylesheet">
   <style>
+    /* บังคับทุกอย่างเป็นสีดำสนิท */
     * { font-family: 'Sarabun', sans-serif; color: #000 !important; line-height: 1.1; font-weight: 900; }
     
     @media print {
@@ -25,13 +26,17 @@
     }
 
     .pn-table { width: 100%; border-collapse: collapse; border: 2px solid #000; background: #fff !important; }
-    /* ลดขนาดฟอนต์ตารางลงเล็กน้อยเพื่อประหยัดพื้นที่แนวตั้ง */
     .pn-table td { border: 1.5px solid #000; padding: 2px 4px; font-size: 11.5px; background: #fff !important; }
     
-    .worksheet-a5 { width: 148mm; height: 210mm; padding: 12mm; box-sizing: border-box; background: #fff; margin: 10px auto; border: 1px solid #ddd; }
+    /* ปรับปรุง Worksheet A5 กันตกหน้า */
+    .worksheet-a5 { width: 148mm; height: 210mm; padding: 10mm 12mm; box-sizing: border-box; background: #fff; margin: 10px auto; border: 1px solid #ddd; }
     .ws-table { width: 100%; border-collapse: collapse; border: 3px solid #000; }
-    .ws-table td, .ws-table th { border: 2px solid #000; padding: 12px 8px; font-size: 19px; }
     
+    /* ลด Padding เล็กน้อยเพื่อประหยัดพื้นที่แนวตั้ง */
+    .ws-table td, .ws-table th { border: 2.5px solid #000; padding: 6px 10px; font-size: 19px; }
+    
+    .col-ml { font-size: 26px !important; }
+
     .menu-card { padding: 1.5rem 1rem; border-radius: 1rem; border: 3px solid transparent; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; }
     #card-bag { background-color: #ecfdf5; }
     #card-cover { background-color: #fffbeb; }
@@ -44,8 +49,8 @@
   <div class="max-w-3xl mx-auto py-8 no-print text-center">
     <h1 class="text-2xl font-black mb-6 uppercase tracking-widest">Starter PN System</h1>
     <div class="grid grid-cols-3 gap-6 mb-10">
-      <div id="card-bag" onclick="selectSection('bag')" class="menu-card shadow-md active-card">🧪 ฉลากแปะ Bag</div>
-      <div id="card-cover" onclick="selectSection('cover')" class="menu-card shadow-md">🏷️ ฉลากหน้าถุง</div>
+      <div id="card-bag" onclick="selectSection('bag')" class="menu-card shadow-md active-card">🧪 ฉลากแปะ Bag (Print=3)</div>
+      <div id="card-cover" onclick="selectSection('cover')" class="menu-card shadow-md">🏷️ ฉลากหน้าถุง (Print=2)</div>
       <div id="card-ws" onclick="selectSection('ws')" class="menu-card shadow-md">📝 Worksheet</div>
     </div>
     <button onclick="window.print()" class="bg-white text-black border-4 border-black py-4 px-16 rounded-full font-black text-2xl hover:bg-slate-100 transition-all shadow-lg">PRINT</button>
@@ -61,7 +66,7 @@
         HN: ......................... ชื่อ: ..............................................
         <div class="flex justify-between mt-0.5">
           <span>Route: [ ] C-line &nbsp; [ ] P-line</span>
-          <span>Rate: ............... ml/hr</span>
+          <span>Rate: .............. ml/hr</span>
         </div>
       </div>
       <table class="pn-table">
@@ -98,40 +103,38 @@
 
   <div id="ws-area" class="print-area hidden flex justify-center">
     <div class="worksheet-a5 flex flex-col">
-      <div class="flex justify-between items-center border-b-[5px] border-black pb-2 mb-4">
+      <div class="flex justify-between items-center border-b-[5px] border-black pb-1 mb-2">
         <h2 class="font-black text-2xl uppercase">Worksheet : Starter PN</h2>
-        <div class="font-black text-red-600 border-4 border-red-600 px-3 py-1 italic text-xl">PREP x 2 bags</div>
+        <div class="font-black border-4 border-black px-3 py-1 italic text-xl">PREP x 2 bags</div>
       </div>
-      <div class="mb-6 text-xl space-y-1" contenteditable="true">
-        <div>ชื่อ-สกุล: .................................................... HN: ....................</div>
-        <div class="flex justify-between">
+      <div class="mb-4 space-y-1" contenteditable="true">
+        <div class="text-4xl font-black uppercase tracking-wider">Ward: NICU</div>
+        <div class="flex justify-between items-center gap-1 text-base">
             <span>วันที่เตรียม: <span class="date-today"></span></span>
-            <span class="text-red-600">วันหมดอายุ: <span class="date-exp"></span> (18:00น.)</span>
+            <span>วันหมดอายุ: <span class="date-exp"></span> (18:00น.)</span>
         </div>
       </div>
       <table class="ws-table">
         <thead class="bg-slate-50">
           <tr>
             <th class="w-16">#</th>
-            <th>รายการสารอาหาร (Per Bag)</th>
-            <th class="w-32">ml</th>
-            <th class="w-24 italic">Check</th>
+            <th>รายการสารอาหาร</th>
+            <th class="w-40">ml</th>
           </tr>
         </thead>
         <tbody contenteditable="true">
-          <tr><td class="text-center">1</td><td>Sterile water</td><td class="text-center">34</td><td></td></tr>
-          <tr><td class="text-center">2</td><td>50% D-W</td><td class="text-center">20</td><td></td></tr>
-          <tr><td class="text-center">3</td><td>10% Aminoven Infant</td><td class="text-center">40</td><td></td></tr>
-          <tr><td class="text-center">4</td><td>10% Ca gluconate</td><td class="text-center">6</td><td></td></tr>
-          <tr><td class="text-center">5</td><td>Heparin (1u/ml)</td><td class="text-center">0.2</td><td></td></tr>
+          <tr><td class="text-center">1</td><td>Sterile water</td><td class="text-left col-ml">34</td></tr>
+          <tr><td class="text-center">2</td><td>50% D-W</td><td class="text-left col-ml">20</td></tr>
+          <tr><td class="text-center">3</td><td>10% Aminoven Infant</td><td class="text-left col-ml">40</td></tr>
+          <tr><td class="text-center">4</td><td>10% Ca gluconate</td><td class="text-right col-ml">6</td></tr>
+          <tr><td class="text-center">5</td><td>Heparin (diluted 500 u/ml)</td><td class="text-right col-ml">0.2</td></tr>
           <tr class="border-t-[4px] border-black">
-            <td colspan="2" class="text-right font-black uppercase">Total Volume</td>
-            <td class="text-center font-black underline decoration-double text-2xl">100.2</td>
-            <td></td>
+            <td colspan="2" class="text-right font-black uppercase text-xl">Total Volume</td>
+            <td class="text-center font-black underline decoration-double text-3xl">100.2</td>
           </tr>
         </tbody>
       </table>
-      <div class="mt-auto flex justify-between text-lg border-t-4 border-black pt-6 pb-4">
+      <div class="mt-4 flex justify-between text-lg border-t-4 border-black pt-4 pb-2">
         <div>ผู้เตรียม: ............................................</div>
         <div>ผู้ตรวจ: ............................................</div>
       </div>
@@ -155,7 +158,7 @@
     }
 
     document.querySelectorAll('.date-today').forEach(el => el.innerText = getThaiDate(0));
-    document.querySelectorAll('.date-exp').forEach(el => el.innerText = getThaiDate(1));
+    document.querySelectorAll('.date-exp').forEach(el => el.innerText = getThaiDate(7));
   </script>
 </body>
 </html>
